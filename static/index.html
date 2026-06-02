@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>銀の葉 · Күміс жапырақ</title>
+    <style>
+        :root {
+            --washi: #faf5e8;
+            --washi-dark: #f0e8d5;
+            --ink: #1a1410;
+            --ink-light: #3a3028;
+            --ink-faded: #6b5e52;
+            --vermillion: #b33a2a;
+            --vermillion-light: #d44a3a;
+            --gold: #b8944c;
+            --gold-light: #d4b068;
+            --indigo: #2a3050;
+            --paper: #fdfaf2;
+            --border: #c8b898;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Georgia', 'Times New Roman', 'Yu Mincho', serif;
+            background: #1e1a14;
+            background-image: radial-gradient(ellipse at 30% 20%, rgba(180, 140, 100, 0.05) 0%, transparent 60%),
+                radial-gradient(ellipse at 70% 80%, rgba(160, 120, 90, 0.04) 0%, transparent 60%);
+            color: var(--ink);
+            min-height: 100vh;
+            background-attachment: fixed;
+        }
+        .topbar {
+            background: linear-gradient(180deg, #3a2a16 0%, #2a1a0c 100%);
+            border-bottom: 2px solid #6b4a28;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 16px rgba(0, 0, 0, 0.5);
+        }
+        .topbar .logo {
+            font-size: 1.2rem;
+            color: var(--gold-light);
+            letter-spacing: 0.06em;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .topbar .logo span {
+            color: var(--vermillion-light);
+            font-size: 1.5rem;
+        }
+        .topbar nav {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .topbar nav button {
+            background: none;
+            border: 1px solid #6b4a28;
+            color: #c8b898;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.8rem;
+            transition: all 0.3s;
+        }
+        .topbar nav button:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: #f0e0c0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px 16px 60px;
+        }
+        .card {
+            background: var(--paper);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 24px 28px;
+            box-shadow: var(--shadow);
+            margin-bottom: 16px;
+        }
+        .card h2 {
+            color: var(--ink);
+            font-weight: normal;
+            letter-spacing: 0.04em;
+            margin-bottom: 12px;
+            font-size: 1.2rem;
+        }
+        .form-group {
+            margin-bottom: 10px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 0.8rem;
+            color: var(--ink-faded);
+            margin-bottom: 3px;
+        }
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 9px 12px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-family: inherit;
+            font-size: 0.9rem;
+            background: #fffdf7;
+            color: var(--ink);
+            outline: none;
+        }
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: var(--vermillion);
+        }
+        .btn {
+            padding: 9px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+            border: 1px solid transparent;
+            letter-spacing: 0.03em;
+        }
+        .btn-primary {
+            background: var(--vermillion);
+            color: #fff;
+            border-color: var(--vermillion);
+        }
+        .btn-primary:hover {
+            background: #9a2a1a;
+        }
+        .btn-outline {
+            background: transparent;
+            border-color: var(--border);
+            color: var(--ink-faded);
+        }
+        .btn-outline:hover {
+            border-color: #8a7a50;
+            color: var(--ink);
+        }
+        .btn-small {
+            padding: 5px 10px;
+            font-size: 0.75rem;
+        }
+        .book-item {
+            background: var(--paper);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 16px 18px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .book-item:hover {
+            border-color: var(--gold);
+            box-shadow: var(--shadow);
+        }
+        .book-item h3 {
+            color: var(--ink);
+            font-size: 1rem;
+        }
+        .book-item .meta {
+            font-size: 0.75rem;
+            color: var(--ink-faded);
+        }
+        .book-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 8px;
+            flex-wrap: wrap;
+        }
+        .like-btn {
+            background: none;
+            border: 1px solid #d4a098;
+            padding: 5px 10px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-family: inherit;
+            color: var(--ink-faded);
+            transition: all 0.3s;
+        }
+        .like-btn.liked {
+            background: rgba(200, 80, 60, 0.1);
+            border-color: var(--vermillion);
+            color: var(--vermillion);
+        }
+        .reader-content {
+            font-size: 1.1rem;
+            line-height: 2;
+            color: var(--ink-light);
+            white-space: pre-wrap;
+            min-height: 200px;
+            padding: 10px 0;
+        }
+        .reader-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 16px;
+            gap: 10px;
+        }
+        .comments-section {
+            margin-top: 10px;
+            padding: 10px;
+            background: #fffef9;
+            border-radius: 4px;
+            border: 1px solid var(--border);
+        }
+        .comments-section .comment {
+            padding: 4px 0;
+            border-bottom: 1px dotted #e0d8c4;
+            font-size: 0.82rem;
+        }
+        .comments-section input {
+            width: 100%;
+            padding: 7px 10px;
+            border: 1px solid var(--border);
+            border-radius: 3px;
+            font-family: inherit;
+            font-size: 0.82rem;
+            margin-top: 6px;
+            outline: none;
+        }
+        .hidden {
+            display: none !important;
+        }
+        .flex-row {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            background: var(--indigo);
+            color: #fff;
+        }
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #2a1a0c;
+            border: 1px solid #8a7a50;
+            color: #e0d0b0;
+            padding: 10px 16px;
+            border-radius: 4px;
+            z-index: 300;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            font-family: inherit;
+            font-size: 0.82rem;
+        }
+        .toast.show {
+            opacity: 1;
+        }
+        @media (max-width: 600px) {
+            .topbar {
+                flex-direction: column;
+                gap: 8px;
+            }
+            .card {
+                padding: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="topbar">
+        <div class="logo" onclick="showScreen('home')"><span>銀</span> Күміс жапырақ</div>
+        <nav>
+            <span id="userInfo" style="color:#8a7a60;font-size:0.8rem;"></span>
+            <button onclick="showScreen('home')">🏠 Басты</button>
+            <button onclick="showScreen('books')">📚 Кітаптар</button>
+            <button onclick="showScreen('addBook')">🌸 Қосу</button>
+            <button id="adminBtn" class="hidden" onclick="showScreen('admin')">👑 Админ</button>
+            <button id="loginBtn" onclick="showScreen('login')">🔑 Кіру</button>
+            <button id="logoutBtn" class="hidden" onclick="logout()">🚪 Шығу</button>
+        </nav>
+    </header>
+
+    <div class="container" id="mainContainer"></div>
+    <div class="toast" id="toast"></div>
+
+    <script>
+        const API = '';
+        let token = localStorage.getItem('token');
+        let me = null;
+        let likedBooks = [];
+
+        // ==================== ЭКРАН ====================
+        function showScreen(name, data = null) {
+            const c = document.getElementById('mainContainer');
+            switch (name) {
+                case 'home':
+                    c.innerHTML = homeHTML();
+                    break;
+                case 'login':
+                    c.innerHTML = loginHTML();
+                    break;
+                case 'books':
+                    c.innerHTML = booksHTML();
+                    loadBooks();
+                    break;
+                case 'addBook':
+                    c.innerHTML = addBookHTML();
+                    break;
+                case 'read':
+                    c.innerHTML = readerHTML(data);
+                    loadReader(data);
+                    break;
+                case 'admin':
+                    c.innerHTML = adminHTML();
+                    loadAdminStats();
+                    break;
+            }
+            updateUI();
+        }
+
+        function updateUI() {
+            document.getElementById('userInfo').textContent = me ? '👤 ' + me.username : '';
+            document.getElementById('loginBtn').classList.toggle('hidden', !!me);
+            document.getElementById('logoutBtn').classList.toggle('hidden', !me);
+            document.getElementById('adminBtn').classList.toggle('hidden', !(me && me.role === 'admin'));
+        }
+
+        // ==================== API КӨМЕКШІ ====================
+        async function api(url, method = 'GET', body = null) {
+            const headers = { 'Content-Type': 'application/json' };
+            const fullUrl = API + url + (url.includes('?') ? '&' : '?') + 'token=' + (token || '');
+            const opts = { method, headers };
+            if (body) opts.body = JSON.stringify(body);
+            const res = await fetch(fullUrl, opts);
+            if (!res.ok) {
+                const err = await res.json().catch(() => ({ detail: 'Қате' }));
+                throw new Error(err.detail || 'Қате');
+            }
+            return res.json();
+        }
+
+        function toast(msg) {
+            const el = document.getElementById('toast');
+            el.textContent = msg;
+            el.classList.add('show');
+            setTimeout(() => el.classList.remove('show'), 2000);
+        }
+
+        // ==================== HOME ====================
+        function homeHTML() {
+            return `
+                <div class="card" style="text-align:center;">
+                    <p style="font-size:0.8rem;color:#8a7a60;letter-spacing:0.1em;">よ う こ そ</p>
+                    <h1 style="color:var(--gold-light);font-weight:normal;font-size:1.8rem;">Күміс жапырақ</h1>
+                    <div style="width:60px;height:2px;background:var(--vermillion);margin:10px auto;opacity:0.5;"></div>
+                    <p style="color:#8a7a60;">銀の葉 · ежелгі кітапхана</p>
+                    <div style="display:flex;gap:12px;justify-content:center;margin-top:20px;flex-wrap:wrap;">
+                        <button class="btn btn-primary" onclick="showScreen('books')">📖 Кітап оқу</button>
+                        <button class="btn btn-outline" onclick="showScreen('addBook')">🌸 Кітап қосу</button>
+                    </div>
+                </div>`;
+        }
+
+        // ==================== LOGIN ====================
+        function loginHTML() {
+            return `
+                <div class="card">
+                    <h2>🔑 Кіру</h2>
+                    <div class="form-group"><label>Аты</label><input id="loginUser" placeholder="admin"></div>
+                    <div class="form-group"><label>Құпиясөз</label><input type="password" id="loginPass" placeholder="admin123"></div>
+                    <button class="btn btn-primary" onclick="doLogin()">Кіру</button>
+                    <hr style="margin:14px 0;border-color:#d4c8b0;">
+                    <h2>📝 Тіркелу</h2>
+                    <div class="form-group"><label>Аты</label><input id="regUser" placeholder="Атыңыз"></div>
+                    <div class="form-group"><label>Құпиясөз</label><input type="password" id="regPass" placeholder="Құпиясөз"></div>
+                    <button class="btn btn-primary" onclick="doRegister()">Тіркелу</button>
+                </div>`;
+        }
+
+        async function doLogin() {
+            const u = document.getElementById('loginUser').value;
+            const p = document.getElementById('loginPass').value;
+            try {
+                const res = await api('/api/login', 'POST', { username: u, password: p });
+                token = res.token;
+                me = { id: res.user_id, username: res.username, role: res.role };
+                localStorage.setItem('token', token);
+                toast('Сәлем, ' + me.username + '!');
+                showScreen('books');
+            } catch (e) { toast(e.message); }
+        }
+
+        async function doRegister() {
+            const u = document.getElementById('regUser').value;
+            const p = document.getElementById('regPass').value;
+            try {
+                const res = await api('/api/register', 'POST', { username: u, password: p });
+                token = res.token;
+                me = { id: res.user_id, username: res.username, role: res.role };
+                localStorage.setItem('token', token);
+                toast('Қош келдіңіз, ' + me.username + '!');
+                showScreen('books');
+            } catch (e) { toast(e.message); }
+        }
+
+        function logout() {
+            token = '';
+            me = null;
+            localStorage.removeItem('token');
+            likedBooks = [];
+            toast('Шықтыңыз');
+            showScreen('home');
+        }
+
+        // ==================== BOOKS ====================
+        function booksHTML() {
+            return `
+                <div class="card">
+                    <div class="flex-row" style="margin-bottom:12px;">
+                        <input type="text" id="searchBooks" placeholder="🔍 Кітап іздеу..." oninput="loadBooks()" style="flex:1;padding:8px;border:1px solid var(--border);border-radius:4px;font-family:inherit;">
+                        <select id="sortBooks" onchange="loadBooks()" style="padding:8px;border:1px solid var(--border);border-radius:4px;font-family:inherit;">
+                            <option value="newest">Ең жаңа</option>
+                            <option value="popular">Ең көп лайк</option>
+                            <option value="views">Ең көп қаралған</option>
+                        </select>
+                    </div>
+                    <div id="booksList"></div>
+                </div>`;
+        }
+
+        async function loadBooks() {
+            if (!me) { showScreen('login'); return; }
+            const s = document.getElementById('searchBooks')?.value || '';
+            const sort = document.getElementById('sortBooks')?.value || 'newest';
+            try {
+                const books = await api(`/api/books?search=${s}&sort=${sort}`);
+                likedBooks = await api('/api/liked');
+                const div = document.getElementById('booksList');
+                if (!books.length) { div.innerHTML = '<p style="text-align:center;color:#8a7a60;">📭 Кітап жоқ</p>'; return; }
+                div.innerHTML = books.map(b => `
+                    <div class="book-item">
+                        <h3>📖 ${esc(b.title)}</h3>
+                        <div class="meta">✍ ${esc(b.author)} · ${esc(b.genre)} · ${b.page_count} бет · ❤️ ${b.likes} · 👁 ${b.views}</div>
+                        <p style="font-size:0.85rem;color:var(--ink-light);">${esc(b.description).substring(0,100)}</p>
+                        <div class="book-actions">
+                            <button class="like-btn ${likedBooks.includes(b.id)?'liked':''}" onclick="event.stopPropagation();toggleLike(${b.id})">${likedBooks.includes(b.id)?'❤️':'🤍'} ${b.likes}</button>
+                            <button class="btn btn-outline btn-small" onclick="event.stopPropagation();showScreen('read',${b.id})">📖 Оқу</button>
+                        </div>
+                    </div>`).join('');
+            } catch (e) { toast(e.message); }
+        }
+
+        async function toggleLike(bid) {
+            try {
+                const res = await api('/api/like/' + bid, 'POST');
+                if (res.liked) likedBooks.push(bid);
+                else likedBooks = likedBooks.filter(id => id !== bid);
+                loadBooks();
+            } catch (e) { toast(e.message); }
+        }
+
+        // ==================== ADD BOOK ====================
+        function addBookHTML() {
+            return `
+                <div class="card">
+                    <h2>🌸 Жаңа кітап</h2>
+                    <div class="form-group"><label>Аты *</label><input id="bookTitle" placeholder="Кітап аты"></div>
+                    <div class="form-group"><label>Автор</label><input id="bookAuthor" placeholder="Автор"></div>
+                    <div class="form-group"><label>Сипаттама</label><textarea id="bookDesc" rows="2"></textarea></div>
+                    <div class="form-group"><label>Жанр</label><input id="bookGenre" value="Жалпы"></div>
+                    <div class="form-group"><label>Бет саны</label><input type="number" id="bookPageCount" value="3" min="1" onchange="genPageInputs()"></div>
+                    <div id="pageInputs"></div>
+                    <button class="btn btn-primary" onclick="saveBook()" style="margin-top:10px;">💾 Сақтау</button>
+                </div>`;
+            setTimeout(genPageInputs, 100);
+        }
+
+        function genPageInputs() {
+            const n = parseInt(document.getElementById('bookPageCount')?.value || 3);
+            const div = document.getElementById('pageInputs');
+            if (!div) return;
+            div.innerHTML = '';
+            for (let i = 0; i < n; i++) {
+                div.innerHTML +=
+                    `<div class="form-group"><label>${i+1}-бет</label><textarea class="pageText" rows="3" placeholder="Бет мәтіні..."></textarea></div>`;
+            }
+        }
+
+        async function saveBook() {
+            if (!me) { showScreen('login'); return; }
+            const title = document.getElementById('bookTitle').value.trim();
+            if (!title) return toast('Атын енгізіңіз');
+            const pages = Array.from(document.querySelectorAll('.pageText')).map(t => t.value.trim()).filter(t => t);
+            if (!pages.length) return toast('Кемінде 1 бет жазыңыз');
+            try {
+                await api('/api/books', 'POST', {
+                    title,
+                    author: document.getElementById('bookAuthor').value,
+                    description: document.getElementById('bookDesc').value,
+                    genre: document.getElementById('bookGenre').value || 'Жалпы',
+                    pages
+                });
+                toast('Кітап сақталды! 🌸');
+                showScreen('books');
+            } catch (e) { toast(e.message); }
+        }
+
+        // ==================== READER ====================
+        let currentBook = null;
+        let currentPage = 0;
+
+        function readerHTML(bookId) {
+            return `
+                <div class="card">
+                    <button class="btn btn-outline btn-small" onclick="showScreen('books')">← Артқа</button>
+                    <h2 id="readerTitle" style="margin-top:10px;"></h2>
+                    <div class="reader-content" id="readerContent"></div>
+                    <div class="reader-nav">
+                        <button class="btn btn-outline" id="prevPage" onclick="changePage(-1)">← Алдыңғы</button>
+                        <span id="pageIndicator" style="color:#8a7a60;"></span>
+                        <button class="btn btn-outline" id="nextPage" onclick="changePage(1)">Келесі →</button>
+                    </div>
+                    <hr style="margin:16px 0;border-color:#d4c8b0;">
+                    <h3>💬 Пікірлер</h3>
+                    <div id="commentsList"></div>
+                    <input type="text" id="commentInput" placeholder="Пікір жазу...">
+                    <button class="btn btn-outline btn-small" onclick="addComment()" style="margin-top:6px;">Жіберу</button>
+                </div>`;
+        }
+
+        async function loadReader(bookId) {
+            try {
+                currentBook = await api('/api/books/' + bookId);
+                currentPage = 0;
+                document.getElementById('readerTitle').textContent = '「' + currentBook.title + '」 — ' + esc(currentBook
+                    .author);
+                renderPage();
+                renderComments();
+            } catch (e) { toast(e.message); }
+        }
+
+        function renderPage() {
+            document.getElementById('readerContent').textContent = currentBook.pages[currentPage] || '';
+            document.getElementById('pageIndicator').textContent = (currentPage + 1) + ' / ' + currentBook.pages.length;
+            document.getElementById('prevPage').disabled = currentPage === 0;
+            document.getElementById('nextPage').disabled = currentPage >= currentBook.pages.length - 1;
+        }
+
+        function changePage(dir) {
+            const np = currentPage + dir;
+            if (np < 0 || np >= currentBook.pages.length) return;
+            currentPage = np;
+            renderPage();
+        }
+
+        function renderComments() {
+            const div = document.getElementById('commentsList');
+            if (!currentBook.comments || !currentBook.comments.length) {
+                div.innerHTML = '<p style="color:#8a7a60;font-size:0.8rem;">Пікір жоқ</p>';
+                return;
+            }
+            div.innerHTML = currentBook.comments.map(c =>
+                `<div class="comment"><strong>${esc(c.username)}</strong>: ${esc(c.text)}</div>`).join('');
+        }
+
+        async function addComment() {
+            if (!me) { showScreen('login'); return; }
+            const text = document.getElementById('commentInput').value.trim();
+            if (!text) return;
+            try {
+                await api('/api/comments', 'POST', { book_id: currentBook.id, text });
+                document.getElementById('commentInput').value = '';
+                currentBook = await api('/api/books/' + currentBook.id);
+                renderComments();
+                toast('Пікір қосылды 💬');
+            } catch (e) { toast(e.message); }
+        }
+
+        // ==================== ADMIN ====================
+        function adminHTML() {
+            return `
+                <div class="card"><h2>👑 Админ панель</h2><div id="adminStats"></div></div>
+                <div class="card"><h3>👥 Қолданушылар</h3><div id="adminUsers"></div></div>
+                <div class="card"><h3>📚 Кітаптар</h3><div id="adminBooks"></div></div>`;
+        }
+
+        async function loadAdminStats() {
+            try {
+                const stats = await api('/api/admin/stats');
+                document.getElementById('adminStats').innerHTML = `
+                    <p>👥 Қолданушы: <b>${stats.users}</b> | 📚 Кітап: <b>${stats.books}</b> | 💬 Пікір: <b>${stats.comments}</b> | ❤️ Лайк: <b>${stats.likes}</b></p>`;
+                const users = await api('/api/admin/users');
+                document.getElementById('adminUsers').innerHTML = users.map(u => `
+                    <div style="padding:4px 0;border-bottom:1px dotted #e0d8c4;display:flex;justify-content:space-between;align-items:center;">
+                        <span>${esc(u.username)} ${u.role==='admin'?'👑':''} ${u.banned?'🚫':''}</span>
+                        <div>
+                            <button class="btn btn-outline btn-small" onclick="adminBan(${u.id})">${u.banned?'Ашу':'Бұғаттау'}</button>
+                            ${u.role!=='admin'?`<button class="btn btn-outline btn-small" onclick="adminDelUser(${u.id})">🗑</button>`:''}
+                        </div>
+                    </div>`).join('');
+                const books = await api('/api/admin/books');
+                document.getElementById('adminBooks').innerHTML = books.map(b => `
+                    <div style="padding:4px 0;border-bottom:1px dotted #e0d8c4;">
+                        <b>${esc(b.title)}</b> — ${esc(b.username)} ${b.hidden?'👁‍🗨':''}
+                        <button class="btn btn-outline btn-small" onclick="adminToggleBook(${b.id})">${b.hidden?'Көрсету':'Жасыру'}</button>
+                    </div>`).join('');
+            } catch (e) { toast(e.message); }
+        }
+
+        async function adminBan(uid) { try { await api('/api/admin/users/' + uid + '/ban', 'POST');
+                loadAdminStats(); } catch (e) { toast(e.message); } }
+
+        async function adminDelUser(uid) { if (confirm('Жою керек пе?')) { try { await api('/api/admin/users/' + uid,
+                    'DELETE');
+                loadAdminStats(); } catch (e) { toast(e.message); } } }
+
+        async function adminToggleBook(bid) { try { await api('/api/admin/books/' + bid + '/toggle', 'POST');
+                loadAdminStats(); } catch (e) { toast(e.message); } }
+
+        function esc(s) { const d = document.createElement('div');
+            d.textContent = s || ''; return d.innerHTML; }
+
+        // ==================== БАСТАУ ====================
+        async function init() {
+            if (token) {
+                try { me = await api('/api/me');
+                    updateUI();
+                    showScreen('books'); } catch (e) { token = '';
+                    localStorage.removeItem('token');
+                    me = null;
+                    showScreen('home'); }
+            } else { showScreen('home'); }
+        }
+        init();
+    </script>
+</body>
+          </html>
